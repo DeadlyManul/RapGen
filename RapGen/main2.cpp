@@ -1,16 +1,16 @@
-п»ї#include <iostream>
+#include <iostream>
 #include <fstream>
 #include <ctime>
 #include <string>
 
 using namespace std;
 
-int file_length_rap = 0; //Рѕ СѓР¶Р°СЃ, СЌС‚Рѕ Р¶Рµ РіР»РѕР±Р°Р»СЊРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ!
+int file_length_rap = 0; //о ужас, это же глобальные переменные!
 int file_length_user = 0;
 int verses_num = 1;
 string dict_name = "";
 
-string allocate_num(string test) { //РІС‹РґРµР»СЏРµС‚ РёР· РґР°РЅРЅРѕР№ СЃС‚СЂРѕРєРё С‚РѕР»СЊРєРѕ С‡Р°СЃС‚СЊ СЃ С†РёС„СЂР°РјРё
+string allocate_num(string test) { //выделяет из данной строки только часть с цифрами
 	string buffer = "";
 
 	for (int i = 0; i < test.length(); i++) {
@@ -23,7 +23,7 @@ string allocate_num(string test) { //РІС‹РґРµР»СЏРµС‚ РёР· РґР°РЅРЅРѕР№ СЃС‚СЂРѕ
 }
 
 
-int convert_to_int(string buffer) { //РїСЂРµРѕР±СЂР°Р·РѕРІС‹РІР°РµС‚ СЃС‚СЂРѕРєСѓ СЃ С†РёС„СЂР°РјРё РІ С‡РёСЃР»Рѕ
+int convert_to_int(string buffer) { //преобразовывает строку с цифрами в число
 	int summ = 0;
 	for (int i = 0; i < buffer.length(); ++i) {
 		char c = buffer[i];
@@ -37,9 +37,9 @@ int convert_to_int(string buffer) { //РїСЂРµРѕР±СЂР°Р·РѕРІС‹РІР°РµС‚ СЃС‚СЂРѕРєС
 	return summ;
 }
 
-string imenno = "Р—Р°РјРµС‚СЊ, СЃР°Рј РїСЂРёР·РЅР°Р»СЃСЏ\n";
+string imenno = "Заметь, сам признался\n";
 
-void constants() { //РїСЂРѕС†РµРґСѓСЂР° С‡С‚РµРЅРёСЏ РєРѕРЅС„РёРіРѕРІ РёР· С„Р°Р№Р»Р°
+void constants() { //процедура чтения конфигов из файла
 	int is_found; 
 
 	ifstream configs;
@@ -47,13 +47,13 @@ void constants() { //РїСЂРѕС†РµРґСѓСЂР° С‡С‚РµРЅРёСЏ РєРѕРЅС„РёРіРѕРІ РёР· С„Р°Р
 
 	string rap_length, user_length, verses_length, user_dict_name;
 
-	do { //РёС‰РµС‚СЃСЏ СЃС‚СЂРѕРєР° СЃ РїРµСЂРІС‹Рј РєРѕРЅС„РёРіРѕРј, РґР°Р»РµРµ С‡С‚РµРЅРёРµ РёРґРµС‚ СЃС‚СЂРѕРіРѕ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕ
+	do { //ищется строка с первым конфигом, далее чтение идет строго последовательно
 		getline(configs, rap_length);
 		is_found = rap_length.find("rap_dict");
 	} while (is_found == string::npos);
 
 	
-	configs.seekg(0); //РїРµСЂРµРјРµС‰РµРЅРёРµ "РєР°СЂРµС‚РєРё" РЅР° РЅР°С‡Р°Р»Рѕ С„Р°Р№Р»Р°
+	configs.seekg(0); //перемещение "каретки" на начало файла
 
 	do {
 		getline(configs, user_length);
@@ -86,8 +86,8 @@ void constants() { //РїСЂРѕС†РµРґСѓСЂР° С‡С‚РµРЅРёСЏ РєРѕРЅС„РёРіРѕРІ РёР· С„Р°Р
 	verses_num = convert_to_int(verses_length);
 	//cout << file_length_rap << " " << file_length_user << "\n";
 
-	size_t pos = user_dict_name.find("\"") + 1; //РІС‹РґРµР»РµРЅРёРµ РёР· СЃС‚СЂРѕРєРё СЃ РёРјРµРЅРµРј С‚РѕР»СЊРєРѕ РёРјРµРЅРё
-	dict_name = user_dict_name.substr(pos);		//РїСЂРѕСЃС‚Рѕ СЂРµР¶РµС‚СЃСЏ РІСЃРµ, С‡С‚Рѕ РЅРµ РјРµР¶РґСѓ РєР°РІС‹С‡РєР°РјРё
+	size_t pos = user_dict_name.find("\"") + 1; //выделение из строки с именем только имени
+	dict_name = user_dict_name.substr(pos);		//просто режется все, что не между кавычками
 	pos = dict_name.find("\"");
 	dict_name = dict_name.substr(0, pos);
 	
@@ -96,10 +96,10 @@ void constants() { //РїСЂРѕС†РµРґСѓСЂР° С‡С‚РµРЅРёСЏ РєРѕРЅС„РёРіРѕРІ РёР· С„Р°Р
 
 const string name = "mamku ebal";
 
-string word_out_rap() { //РїСЂРѕС†РµРґСѓСЂР°, РІС‹С‚Р°СЃРєРёРІР°СЋС‰Р°СЏ СЂР°РЅРґРѕРјРЅРѕРµ СЃР»РѕРІРѕ РёР· СЂСЌРїРµСЂСЃРєРѕРіРѕ СЃР»РѕРІР°СЂСЏ
+string word_out_rap() { //процедура, вытаскивающая рандомное слово из рэперского словаря
 
 	int random_num, random_buffer = 0;
-	int count = -1; //РґР°, СЃС‡РёС‚Р°РµРј СЃ -1, С‚Р°Рє РЅР°РґРѕ
+	int count = -1; //да, считаем с -1, так надо
 
 	ifstream file;
 	file.open("dict_rap.txt", ios::in);
@@ -112,7 +112,7 @@ string word_out_rap() { //РїСЂРѕС†РµРґСѓСЂР°, РІС‹С‚Р°СЃРєРёРІР°СЋС‰Р°СЏ СЂР°РЅР
 			while (random_num == random_buffer) {		
 				random_num = rand() % (file_length_rap + 1);
 			}
-			//cout << "-Р»РёРєРІРёРґРёСЂРѕРІР°РЅРѕ СЃРѕРІРїР°РґРµРЅРёРµ- ";
+			//cout << "-ликвидировано совпадение- ";
 		}
 		random_buffer = random_num;
 
@@ -127,7 +127,7 @@ string word_out_rap() { //РїСЂРѕС†РµРґСѓСЂР°, РІС‹С‚Р°СЃРєРёРІР°СЋС‰Р°СЏ СЂР°РЅР
 		}
 
 	}
-	else cout << "РћС€РёР±РєР° РїСЂРё РѕС‚РєСЂС‹С‚РёРё С„Р°Р№Р»Р°\n";
+	else cout << "Ошибка при открытии файла\n";
 	file.close();
 
 	return line;
@@ -138,8 +138,8 @@ const string pravda = "edinorogi govno";
 void azaza() {
 	const int _azaza_num = 16;
 
-	string _ptr_rap_a[_azaza_num] = { "РїРѕР»С‹С…Р°РµС‚", "Р±РѕРјР±РёС‚", "РїРёР·РґРµС†", "СЃСѓРєР°", "РјСЂР°Р·СЊ", "РјР°С‚СЊ С†РІРµС‚РЅРѕРµ", "РѕРіСЂРµР±Р°РµС€СЊ",
-		"Р±Р°С‚С‚С…РµСЂС‚", "СЂР°Р·РѕСЂРІСѓ", "РЅР°С…СѓР№", "СѓР±СЉСЋ Р·Р° РјР°С‚СЊ", "РјРѕР»С‡Рё", "Р±РѕС…РЅР°РєР°Р¶СЌС‚", "СЃРґРѕС…РЅРё", "СЏ С‚РµР±СЏ РЅР°Р№РґСѓ", "РєР°Рє С‚С‹ РїРѕСЃРјРµР»" };
+	string _ptr_rap_a[_azaza_num] = { "полыхает", "бомбит", "пиздец", "сука", "мразь", "мать цветное", "огребаешь",
+		"баттхерт", "разорву", "нахуй", "убъю за мать", "молчи", "бохнакажэт", "сдохни", "я тебя найду", "как ты посмел" };
 
 	int r, r1 = 0;
 
@@ -158,7 +158,7 @@ void azaza() {
 	}
 }
 
-string word_out_user() { //Р°РЅР°Р»РѕРіРёС‡РЅРѕ СЂСЌРїРµСЂСЃРєРѕР№, РїСЂРѕСЃС‚Рѕ СЃР»РѕРІР°СЂСЊ РґСЂСѓРіРѕР№
+string word_out_user() { //аналогично рэперской, просто словарь другой
 
 	int random_num, random_buffer = 0;
 	int count = -1;
@@ -181,7 +181,7 @@ string word_out_user() { //Р°РЅР°Р»РѕРіРёС‡РЅРѕ СЂСЌРїРµСЂСЃРєРѕР№, РїСЂРѕСЃС‚Рѕ
 				//cout << line << " ";
 			}
 		}
-	} else cout << "РћС€РёР±РєР° РїСЂРё РѕС‚РєСЂС‹С‚РёРё С„Р°Р№Р»Р°\n";
+	} else cout << "Ошибка при открытии файла\n";
 	file.close();
 
 	return line;
@@ -197,9 +197,9 @@ void rap(string filename) {
 
 	file.open(filename);
 	//if (file) {
-		for (int abz = 0; abz < 4; abz++) { //4 Р°Р±Р·Р°С†Р°
-			for (int strok = 0; strok < 4; strok++) { //4 СЃС‚СЂРѕРєРё РІ Р°Р±Р·Р°С†Рµ
-				for (int slov = 0; slov < (3 + rand() % 2); slov++) { //СЂР°РЅРґРѕРјРЅРѕ 3 РёР»Рё 4 СЃР»РѕРІР° РІ СЃС‚СЂРѕРєРµ
+		for (int abz = 0; abz < 4; abz++) { //4 абзаца
+			for (int strok = 0; strok < 4; strok++) { //4 строки в абзаце
+				for (int slov = 0; slov < (3 + rand() % 2); slov++) { //рандомно 3 или 4 слова в строке
 
 					if (line_buffer == line) {
 						while (line_buffer == line) {
@@ -228,9 +228,9 @@ void rap() {
 
 	string line = "", line_buffer = "";
 
-	for (int abz = 0; abz < 4; abz++) { //4 Р°Р±Р·Р°С†Р°
-		for (int strok = 0; strok < 4; strok++) { //4 СЃС‚СЂРѕРєРё РІ Р°Р±Р·Р°С†Рµ
-			for (int slov = 0; slov < (3 + rand() % 2); slov++) { //СЂР°РЅРґРѕРјРЅРѕ 3 РёР»Рё 4 СЃР»РѕРІР° РІ СЃС‚СЂРѕРєРµ
+	for (int abz = 0; abz < 4; abz++) { //4 абзаца
+		for (int strok = 0; strok < 4; strok++) { //4 строки в абзаце
+			for (int slov = 0; slov < (3 + rand() % 2); slov++) { //рандомно 3 или 4 слова в строке
 
 				if (line_buffer == line) {
 					while (line_buffer == line) {
@@ -258,7 +258,7 @@ void user(string filename) {
 	string line = "", line_buffer = "";
 
 	if (file) {
-		for (int verse = 0; verse < verses_num; verse++) { //Р°РЅР°Р»РѕРіРёС‡РЅРѕ, С‚РѕР»СЊРєРѕ С‡РёСЃР»Рѕ Р°Р±Р·Р°С†РµРІ РїСЂРѕРёР·РІРѕР»СЊРЅРѕ
+		for (int verse = 0; verse < verses_num; verse++) { //аналогично, только число абзацев произвольно
 			for (int strok = 0; strok < 4; strok++) {
 				for (int slov = 0; slov < (3 + rand() % 2); slov++) {
 
@@ -285,7 +285,7 @@ void user(string filename) {
 void user() {
 	string line = "", line_buffer = "";
 
-	for (int verse = 0; verse < verses_num; verse++) { //Р°РЅР°Р»РѕРіРёС‡РЅРѕ, С‚РѕР»СЊРєРѕ С‡РёСЃР»Рѕ Р°Р±Р·Р°С†РµРІ РїСЂРѕРёР·РІРѕР»СЊРЅРѕ
+	for (int verse = 0; verse < verses_num; verse++) { //аналогично, только число абзацев произвольно
 		for (int strok = 0; strok < 4; strok++) {
 			for (int slov = 0; slov < (3 + rand() % 2); slov++) {
 
@@ -305,7 +305,7 @@ void user() {
 	}
 }
 
-int main() { //РІСЃРµ РїСЂРѕСЃС‚Рѕ
+int main() { //все просто
 	
 	srand(time(0));
 
@@ -319,9 +319,9 @@ int main() { //РІСЃРµ РїСЂРѕСЃС‚Рѕ
 	constants();
 
 	setlocale(0, ".1251");
-	cout << "Р“РµРЅРµСЂР°С‚РѕСЂ СЂСЌРїР° 1.05 by DeadlyManul\n\n";
-	cout << "РЎР»РѕРІР°СЂСЊ РРІР°РЅР°-СЂСЌРїРµСЂР° - 1, " << dict_name << " - 2\n";
-	cout << "Р”Р»СЏ РІС‹РІРѕРґР° С‚РµРєСЃС‚Р° РІ С„Р°Р№Р»: <РЅРѕРјРµСЂ РіРµРЅРµСЂР°С‚РѕСЂР°> -f <РёРјСЏ С„Р°Р№Р»Р°>\n";
+	cout << "Генератор рэпа 1.05 by DeadlyManul\n\n";
+	cout << "Словарь Ивана-рэпера - 1, " << dict_name << " - 2\n";
+	cout << "Для вывода текста в файл: <номер генератора> -f <имя файла>\n";
 	
 	setlocale(0, ".866");
 	getline(cin, com);
