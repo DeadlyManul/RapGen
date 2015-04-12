@@ -1,8 +1,0 @@
-if (random_num == random_buffer) {
-		while (random_num == random_buffer) {			
-				random_num = rand() % (file_length_rap + 1);
-			}
-		cout << "-ë ñ- ";
-		}
-
-		random_buffer = random_num;
