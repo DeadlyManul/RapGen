@@ -82,7 +82,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="configs.txt" />
+    <Text Include="configs.txt">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </Text>
     <Text Include="dict_user.txt" />
     <Text Include="dict_rap.txt" />
   </ItemGroup>

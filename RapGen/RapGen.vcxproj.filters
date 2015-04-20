@@ -23,10 +23,10 @@
     <Text Include="dict_rap.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="configs.txt">
+    <Text Include="dict_user.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="dict_user.txt">
+    <Text Include="configs.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>

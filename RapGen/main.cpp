@@ -5,15 +5,15 @@
 
 using namespace std;
 
-int file_length_rap = 0; //о ужас, это же глобальные переменные!
+int file_length_rap = 0; // о ужас, это же глобальные переменные!
 int file_length_user = 0;
 int verses_num = 1;
 string dict_name = "";
 
-string allocate_num(string test) { //выделяет из данной строки только часть с цифрами
+string allocate_num(string test) { // выделяет из данной строки только часть с цифрами
 	string buffer = "";
 
-	for (int i = 0; i < test.length(); i++) {
+	for (unsigned int i = 0; i < test.length(); i++) {
 		if (test[i] > 47 && test[i] < 58) {
 			buffer = buffer + test[i];
 		}
@@ -23,9 +23,10 @@ string allocate_num(string test) { //выделяет из данной стро
 }
 
 
-int convert_to_int(string buffer) { //преобразовывает строку с цифрами в число
+int convert_to_int(string buffer) { // преобразовывает строку с цифрами в число
 	int summ = 0;
-	for (int i = 0; i < buffer.length(); ++i) {
+
+	for (unsigned int i = 0; i < buffer.length(); ++i) {
 		char c = buffer[i];
 		summ += c - '0';
 		//if (!( i = buffer.length() - 1 ) )
@@ -39,7 +40,7 @@ int convert_to_int(string buffer) { //преобразовывает строк�
 
 string imenno = "Заметь, сам признался\n";
 
-void constants() { //процедура чтения конфигов из файла
+void constants() { // процедура чтения конфигов из файла
 	int is_found; 
 
 	ifstream configs;
@@ -47,13 +48,13 @@ void constants() { //процедура чтения конфигов из фа�
 
 	string rap_length, user_length, verses_length, user_dict_name;
 
-	do { //ищется строка с первым конфигом
+	do { // ищется строка с первым конфигом
 		getline(configs, rap_length);
 		is_found = rap_length.find("rap_dict");
 	} while (is_found == string::npos);
 
 	
-	configs.seekg(0); //перемещение "каретки" на начало файла после каждого цикла прочтения
+	configs.seekg(0); // перемещение "каретки" на начало файла после каждого цикла прочтения
 
 	do {
 		getline(configs, user_length);
@@ -86,9 +87,9 @@ void constants() { //процедура чтения конфигов из фа�
 	verses_num = convert_to_int(verses_length);
 	//cout << file_length_rap << " " << file_length_user << "\n";
 
-	size_t pos = user_dict_name.find("\"") + 1; //выделение из строки с именем только имени
-	dict_name = user_dict_name.substr(pos);		//читается все, что после первой встреченной кавычки
-	pos = dict_name.find("\"");					//обрезается все, что после второй встреченной кавычки
+	size_t pos = user_dict_name.find("\"") + 1; // выделение из строки с именем только имени
+	dict_name = user_dict_name.substr(pos);		// читается все, что после первой встреченной кавычки
+	pos = dict_name.find("\"");					// обрезается все, что после второй встреченной кавычки
 	dict_name = dict_name.substr(0, pos);
 	
 	configs.close();
@@ -96,10 +97,10 @@ void constants() { //процедура чтения конфигов из фа�
 
 const string name = "mamku ebal";
 
-string word_out_rap() { //процедура, вытаскивающая рандомное слово из рэперского словаря
+string word_out_rap() { // процедура, вытаскивающая рандомное слово из рэперского словаря
 
 	int random_num, random_buffer = 0;
-	int count = -1; //да, считаем с -1, так надо
+	int count = 0; //
 
 	ifstream file;
 	file.open("dict_rap.txt", ios::in);
@@ -141,7 +142,7 @@ void azaza() {
 	string rap_a_mamka[_azaza_num] = { "полыхает", "бомбит", "пиздец", "сука", "мразь", "мать цветное", "огребаешь",
 		"баттхерт", "разорву", "нахуй", "убъю за мать", "молчи", "бохнакажэт", "сдохни", "я тебя найду", "как ты посмел" };
 
-	int r, r1 = 0;
+	int r, r1 = 0; // ты не поймешь, что значат эти переменные. я же не понимаю.
 
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 3 + rand() % 2; j++) {
@@ -159,10 +160,10 @@ void azaza() {
 	}
 }
 
-string word_out_user() { //аналогично рэперской, просто словарь другой
+string word_out_user() { // аналогично рэперской, просто словарь другой
 
 	int random_num, random_buffer = 0;
-	int count = -1;
+	int count = 0;
 
 	ifstream file;
 	file.open("dict_user.txt", ios::in);
@@ -198,9 +199,9 @@ void rap(string filename) {
 
 	file.open(filename);
 	//if (file) {
-		for (int abz = 0; abz < 4; abz++) { //4 абзаца
-			for (int strok = 0; strok < 4; strok++) { //4 строки в абзаце
-				for (int slov = 0; slov < (3 + rand() % 2); slov++) { //рандомно 3 или 4 слова в строке
+		for (int abz = 0; abz < 4; abz++) { // 4 абзаца
+			for (int strok = 0; strok < 4; strok++) { // 4 строки в абзаце
+				for (int slov = 0; slov < (3 + rand() % 2); slov++) { // рандомно 3 или 4 слова в строке
 
 					if (line_buffer == line) {
 						while (line_buffer == line) {
@@ -229,9 +230,9 @@ void rap() {
 
 	string line = "", line_buffer = "";
 
-	for (int abz = 0; abz < 4; abz++) { //4 абзаца
-		for (int strok = 0; strok < 4; strok++) { //4 строки в абзаце
-			for (int slov = 0; slov < (3 + rand() % 2); slov++) { //рандомно 3 или 4 слова в строке
+	for (int abz = 0; abz < 4; abz++) { // 4 абзаца
+		for (int strok = 0; strok < 4; strok++) { // 4 строки в абзаце
+			for (int slov = 0; slov < (3 + rand() % 2); slov++) { // рандомно 3 или 4 слова в строке
 
 				if (line_buffer == line) {
 					while (line_buffer == line) {
@@ -259,7 +260,7 @@ void user(string filename) {
 	string line = "", line_buffer = "";
 
 	if (file) {
-		for (int verse = 0; verse < verses_num; verse++) { //аналогично, только число абзацев произвольно
+		for (int verse = 0; verse < verses_num; verse++) { // аналогично, только число абзацев произвольно
 			for (int strok = 0; strok < 4; strok++) {
 				for (int slov = 0; slov < (3 + rand() % 2); slov++) {
 
@@ -286,7 +287,7 @@ void user(string filename) {
 void user() {
 	string line = "", line_buffer = "";
 
-	for (int verse = 0; verse < verses_num; verse++) { //аналогично, только число абзацев произвольно
+	for (int verse = 0; verse < verses_num; verse++) { // аналогично, только число абзацев произвольно
 		for (int strok = 0; strok < 4; strok++) {
 			for (int slov = 0; slov < (3 + rand() % 2); slov++) {
 
@@ -308,10 +309,10 @@ void user() {
 
 int main() { //все просто
 	
-	srand(time(0));
+	srand((unsigned int)time(0));
 
 	string line;
-	string com;
+	string command;
 
 	size_t pos;
 	string filename = "";
@@ -320,33 +321,33 @@ int main() { //все просто
 	constants();
 
 	setlocale(0, ".1251");
-	cout << "Генератор рэпа 1.05 by DeadlyManul\n\n";
-	cout << "Словарь Ивана-рэпера - 1, " << dict_name << " - 2\n";
-	cout << "Для вывода текста в файл: <номер генератора> -f <имя файла>\n";
+	cout << "Генератор рэпа 1.05 by DeadlyManul\n\n"
+		 << "Словарь Ивана-рэпера - 1, " << dict_name << " - 2\n"
+		 << "Для вывода текста в файл: <номер генератора> -f <имя файла>\n";
 	
 	setlocale(0, ".866");
-	getline(cin, com);
+	getline(cin, command);
 
 	setlocale(0, ".1251");
 
-	if (com == pravda) {
+	if (command == pravda) {
 		cout << imenno;
 	}
 
-	if (com == name) {
+	if (command == name) {
 		azaza();
 	}
 
 	setlocale(0, ".866");
 
-	switch (com[0]) {
+	switch (command[0]) {
 
 		case '1':
 
-			if (com.find("-f") != string::npos) {
+			if (command.find("-f") != string::npos) {
 				rapflag = true;
-				pos = com.find("-f");
-				filename = com.substr(pos+3);
+				pos = command.find("-f");
+				filename = command.substr(pos+3);
 			}
 
 			setlocale(0, ".1251");
@@ -362,10 +363,10 @@ int main() { //все просто
 
 		case '2':
 
-			if (com.find("-f") != string::npos) {
+			if (command.find("-f") != string::npos) {
 				userflag = true;
-				pos = com.find("-f");
-				filename = com.substr(pos + 3);
+				pos = command.find("-f");
+				filename = command.substr(pos + 3);
 			}
 
 			setlocale(0, ".1251");
