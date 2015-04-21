@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="parse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="configs.txt">

@@ -2,99 +2,18 @@
 #include <fstream>
 #include <ctime>
 #include <string>
+#include <vector>
+
 
 using namespace std;
 
-int file_length_rap = 0; // о ужас, это же глобальные переменные!
-int file_length_user = 0;
-int verses_num = 1;
-string dict_name = "";
-
-string allocate_num(string test) { // выделяет из данной строки только часть с цифрами
-	string buffer = "";
-
-	for (unsigned int i = 0; i < test.length(); i++) {
-		if (test[i] > 47 && test[i] < 58) {
-			buffer = buffer + test[i];
-		}
-	}
-
-	return buffer;
-}
+extern int file_length_rap;
+extern int file_length_user;
+extern int verses_num;
+extern string dict_name;
 
 
-int convert_to_int(string buffer) { // преобразовывает строку с цифрами в число
-	int summ = 0;
-
-	for (unsigned int i = 0; i < buffer.length(); ++i) {
-		char c = buffer[i];
-		summ += c - '0';
-		//if (!( i = buffer.length() - 1 ) )
-		summ = summ * 10;
-	}
-
-	summ = summ / 10;
-
-	return summ;
-}
-
-string imenno = "Заметь, сам признался\n";
-
-void constants() { // процедура чтения конфигов из файла
-	int is_found; 
-
-	ifstream configs;
-	configs.open("configs.txt", ios::in);
-
-	string rap_length, user_length, verses_length, user_dict_name;
-
-	do { // ищется строка с первым конфигом
-		getline(configs, rap_length);
-		is_found = rap_length.find("rap_dict");
-	} while (is_found == string::npos);
-
-	
-	configs.seekg(0); // перемещение "каретки" на начало файла после каждого цикла прочтения
-
-	do {
-		getline(configs, user_length);
-		is_found = user_length.find("user_dict");
-	} while (is_found == string::npos);
-
-	configs.seekg(0);
-
-	do {
-		getline(configs, verses_length);
-		is_found = verses_length.find("verses_num");
-	} while (is_found == string::npos);
-
-	configs.seekg(0);
-
-	do {
-		getline(configs, user_dict_name);
-		is_found = user_dict_name.find("user_dict_name");
-	} while (is_found == string::npos);
-
-	rap_length = allocate_num(rap_length);
-	user_length = allocate_num(user_length);
-	verses_length = allocate_num(verses_length);
-
-	//cout << rap_length <<  " " << user_length << "\n";
-
-
-	file_length_rap = convert_to_int(rap_length);
-	file_length_user = convert_to_int(user_length);
-	verses_num = convert_to_int(verses_length);
-	//cout << file_length_rap << " " << file_length_user << "\n";
-
-	size_t pos = user_dict_name.find("\"") + 1; // выделение из строки с именем только имени
-	dict_name = user_dict_name.substr(pos);		// читается все, что после первой встреченной кавычки
-	pos = dict_name.find("\"");					// обрезается все, что после второй встреченной кавычки
-	dict_name = dict_name.substr(0, pos);
-	
-	configs.close();
-}
-
+const string imenno = "Заметь, сам признался\n";
 const string name = "mamku ebal";
 
 string word_out_rap() { // процедура, вытаскивающая рандомное слово из рэперского словаря
@@ -195,6 +114,8 @@ void rap(string filename) {
 	ofstream file;
 	string line = "", line_buffer = "";
 
+	vector <string> buffer;
+
 	//file.open("dict_rap.txt", ios::in);
 
 	file.open(filename);
@@ -211,18 +132,28 @@ void rap(string filename) {
 
 					cout << line << " ";
 					setlocale(0, ".1251");
-					file << line << " ";
+					//file << line << " ";
+
+					buffer.push_back(line);
+					buffer.push_back(" ");
+
 					line_buffer = line;
 
 				}
 				cout << "\n";
-				file << "\n";
+				//file << "\n";
+				buffer.push_back("\n");
 			}
 			cout << "\n\n";
-			file << "\n\n";
+			//file << "\n\n";
+			buffer.push_back("\n\n");
 		}
 	//}
-
+	
+	
+		for (int i = 0; i < buffer.size(); i++) {
+		file << buffer.at(i);
+	}
 	//file.close();
 }
 
@@ -306,6 +237,8 @@ void user() {
 		cout << "\n\n";
 	}
 }
+
+extern void constants();
 
 int main() { //все просто
 	
