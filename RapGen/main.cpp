@@ -7,14 +7,20 @@
 
 using namespace std;
 
-extern int file_length_rap;
+
+extern int file_length_rap; // просто дохренища глобальных переменных, мне очень стыдно, правда =(
 extern int file_length_user;
 extern int verses_num;
 extern string dict_name;
 
 
-const string imenno = "Заметь, сам признался\n";
+vector <string> output_buffer; // научите меня работать с указателями на векторы
+
+
+const string imenno = "Заметь, сам признался\n"; // и вообще с указателями в принципе
 const string name = "mamku ebal";
+
+
 
 string word_out_rap() { // процедура, вытаскивающая рандомное слово из рэперского словаря
 
@@ -32,7 +38,7 @@ string word_out_rap() { // процедура, вытаскивающая ран
 			while (random_num == random_buffer) {		
 				random_num = rand() % (file_length_rap + 1);
 			}
-			//cout << "-ликвидировано совпадение- ";
+			
 		}
 		random_buffer = random_num;
 
@@ -42,7 +48,7 @@ string word_out_rap() { // процедура, вытаскивающая ран
 			if (count == random_num) {
 				getline(file, line);
 				break;
-				//cout << line << " ";
+				
 			}
 		}
 
@@ -53,12 +59,16 @@ string word_out_rap() { // процедура, вытаскивающая ран
 	return line;
 }
 
+
+
 const string pravda = "edinorogi govno";
 
-void azaza() {
-	const int _azaza_num = 16;
 
-	string rap_a_mamka[_azaza_num] = { "полыхает", "бомбит", "пиздец", "сука", "мразь", "мать цветное", "огребаешь",
+
+void azaza() { // моя фантазия на названия функций иссякла
+	const int azaza_count = 16;
+
+	string rap_about_mamka[azaza_count] = { "полыхает", "бомбит", "пиздец", "сука", "мразь", "мать цветное", "огребаешь",
 		"баттхерт", "разорву", "нахуй", "убъю за мать", "молчи", "бохнакажэт", "сдохни", "я тебя найду", "как ты посмел" };
 
 	int r, r1 = 0; // ты не поймешь, что значат эти переменные. я же не понимаю.
@@ -66,18 +76,21 @@ void azaza() {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 3 + rand() % 2; j++) {
 
-			r = rand() % _azaza_num;
+			r = rand() % azaza_count;
 			while (r1 == r) {
 				if (r1 == r) {
-					r = rand() % _azaza_num;
+					r = rand() % azaza_count;
 				}
 			}
+
 			r1 = r;
-			cout << rap_a_mamka[r] << " "; 
+			cout << rap_about_mamka[r] << " "; 
 		}
 		cout << "\n";
 	}
 }
+
+
 
 string word_out_user() { // аналогично рэперской, просто словарь другой
 
@@ -99,7 +112,7 @@ string word_out_user() { // аналогично рэперской, прост�
 			if (count == random_num) {
 				getline(file, line);
 				break;
-				//cout << line << " ";
+				
 			}
 		}
 	} else cout << "Ошибка при открытии файла\n";
@@ -109,117 +122,70 @@ string word_out_user() { // аналогично рэперской, прост�
 }
 
 
-void rap(string filename) {
-	//ifstream file;
-	ofstream file;
-	string line = "", line_buffer = "";
+void saveResult(string filename) {
 
-	vector <string> buffer;
+	ofstream saved_file;
 
-	//file.open("dict_rap.txt", ios::in);
+	saved_file.open(filename);
 
-	file.open(filename);
-	//if (file) {
-		for (int abz = 0; abz < 4; abz++) { // 4 абзаца
-			for (int strok = 0; strok < 4; strok++) { // 4 строки в абзаце
-				for (int slov = 0; slov < (3 + rand() % 2); slov++) { // рандомно 3 или 4 слова в строке
+	vector <string> azaza;
 
-					if (line_buffer == line) {
-						while (line_buffer == line) {
-							line = word_out_rap();						
-						}
-					}
-
-					cout << line << " ";
-					setlocale(0, ".1251");
-					//file << line << " ";
-
-					buffer.push_back(line);
-					buffer.push_back(" ");
-
-					line_buffer = line;
-
-				}
-				cout << "\n";
-				//file << "\n";
-				buffer.push_back("\n");
-			}
-			cout << "\n\n";
-			//file << "\n\n";
-			buffer.push_back("\n\n");
+	
+	if (saved_file) {
+		for (int i = 0; i < output_buffer.size(); i++) {
+			saved_file << output_buffer.at(i);
 		}
-	//}
-	
-	
-		for (int i = 0; i < buffer.size(); i++) {
-		file << buffer.at(i);
-	}
-	//file.close();
+	} else
+		cout << "Извините, при создании выходного файла произошла ошибка";
+
+	saved_file.close();
 }
+
+
 
 void rap() {
 
 	string line = "", line_buffer = "";
 
 	for (int abz = 0; abz < 4; abz++) { // 4 абзаца
-		for (int strok = 0; strok < 4; strok++) { // 4 строки в абзаце
+		for (int row = 0; row < 4; row++) { // 4 строки в абзаце (row - строка)
 			for (int slov = 0; slov < (3 + rand() % 2); slov++) { // рандомно 3 или 4 слова в строке
 
 				if (line_buffer == line) {
 					while (line_buffer == line) {
-						line = word_out_rap();
+						line = word_out_rap();						
 					}
 				}
 
-				cout << line << " ";
 				setlocale(0, ".1251");
+			
+				output_buffer.push_back(line); // слова и пробелы с управляющими символами проталкиваются в вектор
+				output_buffer.push_back(" ");  
+
 				line_buffer = line;
 
 			}
-			cout << "\n";
+
+			output_buffer.push_back("\n");
 		}
-		cout << "\n\n";
+
+		output_buffer.push_back("\n\n");
+	}
+
+	for (int i = 0; i < output_buffer.size(); i++) { // далее из вектора выводится все разом
+		cout << output_buffer.at(i);
 	}
 
 }
 
-void user(string filename) {
 
-	ofstream file;
-
-	file.open(filename);
-	string line = "", line_buffer = "";
-
-	if (file) {
-		for (int verse = 0; verse < verses_num; verse++) { // аналогично, только число абзацев произвольно
-			for (int strok = 0; strok < 4; strok++) {
-				for (int slov = 0; slov < (3 + rand() % 2); slov++) {
-
-					if (line_buffer == line) {
-						while (line_buffer == line) {
-							line = word_out_user();
-						}
-					}
-
-					cout << line << " ";
-					file << line << " ";
-					line_buffer = line;
-
-				}
-				cout << "\n";
-				file << "\n";
-			}
-			cout << "\n\n";
-			file << "\n\n";
-		}
-	}
-}
 
 void user() {
+
 	string line = "", line_buffer = "";
 
 	for (int verse = 0; verse < verses_num; verse++) { // аналогично, только число абзацев произвольно
-		for (int strok = 0; strok < 4; strok++) {
+		for (int row = 0; row < 4; row++) {
 			for (int slov = 0; slov < (3 + rand() % 2); slov++) {
 
 				if (line_buffer == line) {
@@ -228,21 +194,35 @@ void user() {
 					}
 				}
 
-				cout << line << " ";
+				setlocale(0, ".1251");
+
+				output_buffer.push_back(line); 
+				output_buffer.push_back(" ");
 				line_buffer = line;
 
 			}
-			cout << "\n";
+
+			output_buffer.push_back("\n");
 		}
-		cout << "\n\n";
+
+		output_buffer.push_back("\n\n");
 	}
+
+
+	for (int i = 0; i < output_buffer.size(); i++) {
+		cout << output_buffer.at(i);
+	}
+
 }
+
+
 
 extern void constants();
 
+
 int main() { //все просто
 	
-	srand((unsigned int)time(0));
+	srand( static_cast<unsigned int>(time( 0 ) ) );
 
 	string line;
 	string command;
@@ -254,9 +234,8 @@ int main() { //все просто
 	constants();
 
 	setlocale(0, ".1251");
-	cout << "Генератор рэпа 1.05 by DeadlyManul\n\n"
-		 << "Словарь Ивана-рэпера - 1, " << dict_name << " - 2\n"
-		 << "Для вывода текста в файл: <номер генератора> -f <имя файла>\n";
+	cout << "Генератор рэпа 1.1 by DeadlyManul\n\n"
+		 << "Словарь Ивана-рэпера - 1, " << dict_name << " - 2\n";
 	
 	setlocale(0, ".866");
 	getline(cin, command);
@@ -276,47 +255,30 @@ int main() { //все просто
 	switch (command[0]) {
 
 		case '1':
-
-			if (command.find("-f") != string::npos) {
-				rapflag = true;
-				pos = command.find("-f");
-				filename = command.substr(pos+3);
-			}
-
-			setlocale(0, ".1251");
-			if (rapflag) {
-				cout << "\n";
-				rap(filename);
-			}
-			else {
-				cout << "\n";
-				rap();
-			}
+			rap();
 			break;
 
 		case '2':
-
-			if (command.find("-f") != string::npos) {
-				userflag = true;
-				pos = command.find("-f");
-				filename = command.substr(pos + 3);
-			}
-
-			setlocale(0, ".1251");
-
-			if (userflag) {
-				cout << "\n";
-				user(filename);
-			}
-			else {
-				cout << "\n";
-				user();
-			}
+			user();
 			break;
+	
+	}
 
-		default:
+	cout << "Вывести результат в файл? (y/n)\n";
+	cin >> command[0];
+
+	switch (command[0]) {
+		case 'y':
+			cout << "Введите имя файла:\n";
+			cin >> filename;
+
+			saveResult(filename);
+
 			break;
-	};
+		case 'n':
+			cout << "Как хочешь\n";
+			break;
+	}
 
 	system("pause");
 	return 0;
