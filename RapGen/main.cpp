@@ -4,9 +4,7 @@
 #include <string>
 #include <vector>
 
-
 using namespace std;
-
 
 extern int file_length_rap; // просто дохренища глобальных переменных, мне очень стыдно, правда =(
 extern int file_length_user;
@@ -84,10 +82,19 @@ void azaza() { // моя фантазия на названия функций �
 			}
 
 			r1 = r;
-			cout << rap_about_mamka[r] << " "; 
+			//cout << rap_about_mamka[r] << " "; 
+			output_buffer.push_back(rap_about_mamka[r]);
+			output_buffer.push_back(" ");
+
 		}
-		cout << "\n";
+		//cout << "\n";
+		output_buffer.push_back("\n");
 	}
+
+	for (unsigned int i = 0; i < output_buffer.size(); i++) {
+		cout << output_buffer.at(i);
+	}
+	//setlocale(0,".866");
 }
 
 
@@ -132,7 +139,7 @@ void saveResult(string filename) {
 
 	
 	if (saved_file) {
-		for (int i = 0; i < output_buffer.size(); i++) {
+		for (unsigned int i = 0; i < output_buffer.size(); i++) {
 			saved_file << output_buffer.at(i);
 		}
 	} else
@@ -172,7 +179,7 @@ void rap() {
 		output_buffer.push_back("\n\n");
 	}
 
-	for (int i = 0; i < output_buffer.size(); i++) { // далее из вектора выводится все разом
+	for (unsigned int i = 0; i < output_buffer.size(); i++) { // далее из вектора выводится все разом
 		cout << output_buffer.at(i);
 	}
 
@@ -209,7 +216,7 @@ void user() {
 	}
 
 
-	for (int i = 0; i < output_buffer.size(); i++) {
+	for (unsigned int i = 0; i < output_buffer.size(); i++) {
 		cout << output_buffer.at(i);
 	}
 
@@ -227,9 +234,8 @@ int main() { //все просто
 	string line;
 	string command;
 
-	size_t pos;
 	string filename = "";
-	bool rapflag = false, userflag = false;
+
 
 	constants();
 
@@ -250,7 +256,6 @@ int main() { //все просто
 		azaza();
 	}
 
-	setlocale(0, ".866");
 
 	switch (command[0]) {
 
@@ -264,19 +269,27 @@ int main() { //все просто
 	
 	}
 
+
 	cout << "Вывести результат в файл? (y/n)\n";
 	cin >> command[0];
 
 	switch (command[0]) {
+
 		case 'y':
 			cout << "Введите имя файла:\n";
+
 			cin >> filename;
 
 			saveResult(filename);
 
 			break;
+
 		case 'n':
 			cout << "Как хочешь\n";
+			break;
+
+		default:
+			cout << "Несуществующая команда.\n";
 			break;
 	}
 
