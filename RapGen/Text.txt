@@ -1,0 +1,2 @@
+http://stackoverflow.com/questions/320677/how-do-i-set-the-icon-for-my-application-in-visual-studio-2008
+http://www.cyberforum.ru/cpp-beginners/thread43322.html#post211298
