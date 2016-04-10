@@ -13,8 +13,8 @@ string allocate_num(string test) { // выдел€ет из данной строки только часть с ц
 	string buffer = "";
 
 	for (unsigned int i = 0; i < test.length(); i++) {
-		if (test[i] > 47 && test[i] < 58) {
-			buffer = buffer + test[i];
+		if (test[i] > 47 && test[i] < 58) { // находим символы чисел, пишем только их
+			buffer = buffer + test[i];  
 		}
 	}
 
@@ -27,9 +27,9 @@ int convert_to_int(string buffer) { // преобразовывает строку с цифрами в число
 
 	for (unsigned int i = 0; i < buffer.length(); ++i) {
 		char c = buffer[i];
-		summ += c - '0';
+		summ += c - '0'; // если вычесть из кода числа код нул€, то получитс€ как раз само число
 		//if (!( i = buffer.length() - 1 ) )
-		summ = summ * 10;
+		summ = summ * 10; 
 	}
 
 	summ = summ / 10;
@@ -37,57 +37,49 @@ int convert_to_int(string buffer) { // преобразовывает строку с цифрами в число
 	return summ;
 }
 
-void constants() { // процедура чтени€ конфигов из файла
-	int is_found;
-
+void getEntry(string name, string * container) {
 	ifstream configs;
 	configs.open("configs.txt", ios::in);
 
-	string rap_length, user_length, verses_length, user_dict_name;
+	string buffer = *container;
+
+	int is_found;
 
 	do { // ищетс€ строка с первым конфигом
-		getline(configs, rap_length);
-		is_found = rap_length.find("rap_dict");
-	} while (is_found == string::npos);
+		getline(configs, buffer);
+		is_found = buffer.find(name);
+	} while (is_found == string::npos); //пока не вы€снитс€, что что-то нашлось и строка больше не пуста€
+
+	*container = buffer;
+
+	configs.close();
+}
+
+void constants() { // процедура чтени€ конфигов из файла
+
+	string rap_length, user_length, verses_length, user_dict_name;
 
 
-	configs.seekg(0); // перемещение "каретки" на начало файла после каждого цикла прочтени€
+	getEntry("rap_dict", &rap_length);
+	getEntry("user_dict", &user_length);
+	getEntry("verses_num", &verses_length);
+	getEntry("user_dict_name", &user_dict_name);
 
-	do {
-		getline(configs, user_length);
-		is_found = user_length.find("user_dict");
-	} while (is_found == string::npos);
-
-	configs.seekg(0);
-
-	do {
-		getline(configs, verses_length);
-		is_found = verses_length.find("verses_num");
-	} while (is_found == string::npos);
-
-	configs.seekg(0);
-
-	do {
-		getline(configs, user_dict_name);
-		is_found = user_dict_name.find("user_dict_name");
-	} while (is_found == string::npos);
-
-	rap_length = allocate_num(rap_length);
+	rap_length = allocate_num(rap_length); //прогон€ем через процедуру поиска цифр, чтобы отсе€ть лишнее
 	user_length = allocate_num(user_length);
 	verses_length = allocate_num(verses_length);
 
-	//cout << rap_length <<  " " << user_length << "\n";
 
-
-	file_length_rap = convert_to_int(rap_length);
+	file_length_rap = convert_to_int(rap_length); // оставшиес€ цифры перегон€ютс€ в int
 	file_length_user = convert_to_int(user_length);
 	verses_num = convert_to_int(verses_length);
-	//cout << file_length_rap << " " << file_length_user << "\n";
+	
 
-	size_t pos = user_dict_name.find("\"") + 1; // выделение из строки с именем только имени
-	dict_name = user_dict_name.substr(pos);		// читаетс€ все, что после первой встреченной кавычки
-	pos = dict_name.find("\"");					// обрезаетс€ все, что после второй встреченной кавычки
+	/* выделение из строки с именем только имени: */
+
+	size_t pos = user_dict_name.find("\"") + 1; // находим позицию первой кавычки
+	dict_name = user_dict_name.substr(pos);		// читаем все, что после первой встреченной кавычки
+	pos = dict_name.find("\"");					// обрезаем все, что после второй встреченной кавычки
 	dict_name = dict_name.substr(0, pos);
 
-	configs.close();
 }
