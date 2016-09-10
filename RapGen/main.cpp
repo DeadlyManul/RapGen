@@ -3,6 +3,7 @@
 #include <ctime>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -11,7 +12,7 @@ extern int file_length_user;
 extern int verses_num;
 extern string dict_name;
 
-
+extern vector <string> test_buffer;
 vector <string> output_buffer; // научите меня работать с указателями на векторы
 
 
@@ -23,13 +24,18 @@ const string name = "mamku ebal";
 string word_out_rap() { // процедура, вытаскивающая рандомное слово из рэперского словаря
 
 	int random_num, random_buffer = 0;
-	int count = 0; //
+	int count = 0; 
 
 	ifstream file;
 	file.open("dict_rap.txt", ios::in);
 
+	
+
 	string line;
 	if (file) {
+
+		
+
 		random_num = rand() % (file_length_rap + 1); 
 		
 		if (random_num == random_buffer) {
@@ -240,7 +246,10 @@ int main() { //все просто
 
 	constants();
 
+
+
 	setlocale(0, ".1251");
+	cout << "Длина словаря рэпа - " << file_length_rap << ", юзера - " << file_length_user << endl;
 	cout << "Генератор рэпа 1.1 by DeadlyManul\n\n"
 		 << "Словарь Ивана-рэпера - 1, " << dict_name << " - 2\n";
 	

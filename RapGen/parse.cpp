@@ -1,5 +1,6 @@
 #include <string>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
@@ -8,6 +9,7 @@ int file_length_user = 0;
 int verses_num = 1;
 string dict_name = "";
 
+vector <string> test_buffer;
 
 string allocate_num(string test) { // выделяет из данной строки только часть с цифрами
 	string buffer = "";
@@ -59,21 +61,32 @@ void constants() { // процедура чтения конфигов из файла
 
 	string rap_length, user_length, verses_length, user_dict_name;
 
+	ifstream file_counter("dict_rap.txt");
+	
+	string buffer;
 
-	getEntry("rap_dict", &rap_length);
-	getEntry("user_dict", &user_length);
+	while (file_counter.eof()) {
+		getline(file_counter, buffer);
+		test_buffer.push_back(buffer);
+	}
+
+	file_counter.close();
+
 	getEntry("verses_num", &verses_length);
 	getEntry("user_dict_name", &user_dict_name);
 
-	rap_length = allocate_num(rap_length); //прогоняем через процедуру поиска цифр, чтобы отсеять лишнее
-	user_length = allocate_num(user_length);
-	verses_length = allocate_num(verses_length);
+	verses_length = allocate_num(verses_length);//прогоняем через процедуру поиска цифр, чтобы отсеять лишнее
 
-
-	file_length_rap = convert_to_int(rap_length); // оставшиеся цифры перегоняются в int
-	file_length_user = convert_to_int(user_length);
-	verses_num = convert_to_int(verses_length);
+	verses_num = convert_to_int(verses_length); // оставшиеся цифры перегоняются в int
 	
+	// Подсчет числа записей в файлах (без учета первй строки):
+	ifstream rap_file_counter("dict_rap.txt");
+	file_length_rap = std::count(istreambuf_iterator<char>(rap_file_counter), istreambuf_iterator<char>(), '\n');
+	rap_file_counter.close();
+
+	ifstream user_file_counter("dict_user.txt");
+	file_length_user = std::count(istreambuf_iterator<char>(user_file_counter), istreambuf_iterator<char>(), '\n');
+	user_file_counter.close();
 
 	/* выделение из строки с именем только имени: */
 
